@@ -106,6 +106,7 @@ class Producto(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=100)
+    imagenPrincipal = models.CharField(max_length=100)
     precio = models.IntegerField()
     stock = models.IntegerField()
     idCategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='idCategoria')
@@ -144,18 +145,8 @@ class Empleado(models.Model):
     class Meta:
         db_table = 'empleado'
 
-from django.db import models
 
-class Usuario2(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100, unique=True)
-    clave = models.CharField(max_length=100)
 
-    class Meta:
-        db_table = 'usuario2'
-
-    def __str__(self):
-        return self.nombre
 
 
 class Usuario(models.Model):
