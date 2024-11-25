@@ -1,0 +1,48 @@
+.boton-compra{
+    position: absolute;
+    bottom: 0;
+    width: 100%;  // Hacer que el botón ocupe todo el ancho
+  }
+
+.contendor-productos{
+    display: block;
+}
+
+.imagen-producto{
+    
+    width: 100%;  /* Asegura que la imagen ocupe todo el ancho disponible */
+    height: 250px;  /* Mantiene la relación de aspecto */
+    display: block;  /* Elimina los márgenes por defecto que puede tener la imagen */
+    margin-left: auto;  /* Centra la imagen en el eje horizontal */
+    margin-right: auto;  /* Centra la imagen en el eje horizontal */
+}
+
+.custom-card {
+    height: 450px;
+    width: 100%; /* El card ocupa todo el ancho de su celda */
+    max-width: 400px; /* Ajusta el tamaño máximo del card */
+    margin: auto; /* Centra el card dentro de su celda */
+    border-radius: 12px; /* Opcional: bordes redondeados */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Opcional: sombra */
+}
+
+.grid-container {
+    display: grid; /* Define el contenedor como una cuadrícula */
+    grid-template-columns: repeat(5, 1fr); /* Máximo de 5 tarjetas por fila */
+    gap: 16px; /* Espacio entre las tarjetas */
+    padding: 16px; /* Espaciado interno */
+}
+
+ion-list {
+    display: flex;
+    flex-direction: column; /* Asegura que los items estén en columna */
+    align-items: center; /* Centra los cards */
+    padding: 0; /* Quita padding extra */
+}
+
+.imagen-banner {
+    width: 100%;
+    height: 300px;
+    display: block;
+
+}

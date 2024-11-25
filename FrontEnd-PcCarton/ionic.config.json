@@ -1,0 +1,7 @@
+{
+  "name": "FrontEnd-PcCarton",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

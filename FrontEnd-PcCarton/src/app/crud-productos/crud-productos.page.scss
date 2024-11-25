@@ -1,0 +1,23 @@
+.card-container {
+    display: flex;
+    align-items: flex-start; /* Alinea los elementos al inicio vertical */
+    gap: 16px; /* Espaciado entre imagen y contenido */
+}
+  
+.card-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover; /* Ajusta la imagen al contenedor sin distorsión */
+    border-radius: 8px; /* Opcional: esquinas redondeadas */
+}
+  
+.card-content {
+    flex: 1; /* Toma el espacio restante para el contenido */
+}
+  
+.custom-card {
+    width: 100%; /* O ajusta a tus necesidades */
+    max-width: 500px; /* Establece un máximo si deseas limitarlo */
+    margin: 0; /* Centra el card */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Opcional: sombra para estética */
+}

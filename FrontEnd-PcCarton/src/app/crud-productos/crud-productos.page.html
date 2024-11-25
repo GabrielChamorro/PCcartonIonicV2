@@ -1,0 +1,120 @@
+<ion-menu contentId="IntefazAñadir" menuId="menuAddProduct">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Añadir o Editar producto</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-menu-toggle>
+      <ion-button>Cerrar menu</ion-button>
+    </ion-menu-toggle>
+    <br>
+
+    <form [formGroup]="formularioPost" (submit)="obtenerDatosPostProducto()" >
+      <ion-input labelPlacement="floating" fill="outline" formControlName="idVar">
+        <div slot="label">Id<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-input labelPlacement="floating" fill="outline" formControlName="idCategVar">
+        <div slot="label">IdCategoria<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-input labelPlacement="floating" fill="outline" formControlName="descripVar">
+        <div slot="label">Descripcion<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-input labelPlacement="floating" fill="outline" formControlName="imagenPriVar">
+        <div slot="label">url imagen<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-input labelPlacement="floating" fill="outline" formControlName="nombreVar">
+        <div slot="label">Nombre<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-input labelPlacement="floating" fill="outline" formControlName="precioVar">
+        <div slot="label">Precio<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-input labelPlacement="floating" fill="outline" formControlName="stockVar">
+        <div slot="label">Stock<ion-text color="danger">(Required)</ion-text></div>
+      </ion-input>
+      <br>
+      <ion-button type="submit" role="submit"ion-button>Añadir</ion-button>
+    </form>
+
+  </ion-content>
+</ion-menu>
+
+
+
+<div class="ion-page">
+
+
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>Crud_productos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-content [fullscreen]="true">
+    <!--1:15:31 parte 2 clase 9-->
+    <ion-text *ngIf="producto.cargando | async">
+      cargando
+    </ion-text>
+    
+
+    <!--esta parte esta dando error especificamente al parecer no reconoce el tipo de registro o algo asi-->
+    
+    <ion-menu-toggle id="IntefazAñadir" (click)="openAddProductMenu()">
+      <ion-button >añadir o editar</ion-button>
+    </ion-menu-toggle>
+    
+
+
+
+    <ion-list style="width: 50%;" *ngFor="let dato of datos.registro">
+      <ion-item > 
+        <ion-card class="custom-card">
+          <div class="card-container">
+            <img 
+              alt="Imagen del producto" 
+              class="card-image" 
+              src="{{dato.imagenPrincipal}}" 
+            />
+            <div class="card-content">
+              <ion-card-header>
+                <ion-card-title id="ValorProducto{{dato.nombre}}">
+                  Producto: {{dato.nombre}}
+                </ion-card-title>
+                <ion-card-subtitle id="ValorId{{dato.id}}">
+                  ID Producto: {{dato.id}}
+                </ion-card-subtitle>
+                <ion-card-subtitle id="ValorIdCategoria{{dato.idCategoria}}">
+                  ID Categoría: {{dato.idCategoria}}
+                </ion-card-subtitle>
+                <ion-card-subtitle id="ValorPrecio{{dato.precio}}">
+                  Precio: ${{dato.precio}}
+                </ion-card-subtitle>
+                <ion-card-subtitle id="ValorStock{{dato.stock}}">
+                  Stock: {{dato.stock}}
+                </ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content id="ValorDescripcion{{dato.descripcion}}">
+                Descripción: {{dato.descripcion}}
+              </ion-card-content>
+              <ion-button (click)="obtenerDatosDeleteProducto(dato.id)">
+                Eliminar
+              </ion-button>
+            </div>
+          </div>
+        </ion-card>
+      </ion-item>
+
+      
+    </ion-list>
+    
+
+    
+  </ion-content>
+</div>
