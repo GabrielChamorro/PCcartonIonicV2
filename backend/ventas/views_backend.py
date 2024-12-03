@@ -10,13 +10,14 @@ from rest_framework import status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 import json
-#from .models import Region,Persona,Comuna
+#importante
 from .models import *
-#from .serializers import RegionSerializer,PersonaSerializer
 from .serializers import *
-from rest_framework.permissions import IsAuthenticated
 from .negocio import *
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.views import TokenObtainPairView
 # Create your views here.
 
 def indexHarrys(request):
@@ -480,24 +481,24 @@ class UsuarioList(APIView):
 
     def post(self, request, format=None):
         data = JSONParser().parse(request)
-        if not Negocio.usuarioCrear(data['id'], data['nombre'], data.get('idCliente', None), data.get('idEmpleado', None)):
+        if not Negocio.usuarioCrear(data['nombre'], data['clave'], data.get('idCliente', None), data.get('idEmpleado', None)):
             return JSONResponseErr(None, msg="Error al crear el usuario", status=status.HTTP_400_BAD_REQUEST)
         return JSONResponseOk(None, msg="Registro Creado", status=status.HTTP_201_CREATED)
 
 class UsuarioDetail(APIView):
-    def get(self, request, id, format=None):
-        registro = Negocio.get_Usuario(id)
+    def get(self, request, nombre, format=None):
+        registro = Negocio.get_Usuario(nombre)
         serializer = UsuarioSerializer(registro)
-        return JSONResponseOk(serializer.data, msg="")
+        return JSONResponseOk(serializer.data, msg="hola")
 
-    def put(self, request, id, format=None):
+    def put(self, request, nombre, format=None):
         data = JSONParser().parse(request)
-        if not Negocio.usuarioCrear(id, data['nombre'], data.get('idCliente', None), data.get('idEmpleado', None)):
+        if not Negocio.usuarioCrear(nombre, data['clave'], data.get('idCliente', None), data.get('idEmpleado', None)):
             return JSONResponseErr(None, status=status.HTTP_400_BAD_REQUEST)
         return JSONResponseOk(None, msg="Registro Actualizado")
 
-    def delete(self, request, id, format=None):
-        if not Negocio.usuarioEliminar(id):
+    def delete(self, request, nombre, format=None):
+        if not Negocio.usuarioEliminar(nombre):
             return JSONResponseErr(None, msg="Error al eliminar el usuario", status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -721,6 +722,36 @@ class ProductoDetail(APIView):
 
 
 
+
+class LoginView(TokenObtainPairView):
+    def post(self, request):
+        print(f"Request Body: {request.body}")  # Para verificar el cuerpo de la solicitud
+
+        # Obtener datos de la solicitud (nombre y clave)
+
+        nombre = request.data.get('nombre')
+        clave = request.data.get('clave')
+
+        print('nombre', nombre, 'clave', clave)
+        
+        # Verificar si el usuario existe
+        usuario = Negocio.get_Usuario(nombre)
+        print(f"Resultado de búsqueda de usuario: {usuario}")
+        print(f"Datos recibidos en la solicitud: {request.data}")
+
+        if usuario is None:
+            return Response({'detail': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        # Verificar si la clave es correcta         
+        elif usuario.clave != clave:
+            return Response({'detail': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
+        # Generate tokens
+        refresh = RefreshToken.for_user(usuario)  # Generamos el token para el usuario
+        access_token = str(refresh.access_token)
+        nombre = str(usuario.nombre)
+        idCliente = str(usuario.idCliente)
+
+        return Response({'access_token': access_token, 'refresh_token': str(refresh),
+                        'nombre': nombre, 'idCliente': idCliente }, status=status.HTTP_200_OK)
 
 
 

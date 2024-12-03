@@ -62,6 +62,8 @@
     <ion-text *ngIf="producto.cargando | async">
       cargando
     </ion-text>
+
+    <ion-spinner *ngIf="producto.cargando | async" name="crescent"></ion-spinner>
     
 
     <!--esta parte esta dando error especificamente al parecer no reconoce el tipo de registro o algo asi-->

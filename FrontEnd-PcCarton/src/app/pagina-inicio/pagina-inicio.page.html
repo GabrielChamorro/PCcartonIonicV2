@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>pagina-inicio</ion-title>
-    <ion-button>login</ion-button>
+    <ion-button (click)="redirigirLogin()">login</ion-button>
     <ion-button>carrito</ion-button>
   </ion-toolbar>
 </ion-header>
@@ -13,7 +13,14 @@
 
 
 <ion-content [fullscreen]="true">
+
+  
   <img class="imagen-banner" src="./../../assets/Images/a2d96dbf-8de1-49a4-8e27-7346e705f4fd.png"/>
+
+  <ion-searchbar></ion-searchbar>
+
+  <ion-spinner class="loading" *ngIf="producto.cargando | async" name="crescent"></ion-spinner>
+
   <div class="grid-container">
     <ion-card class="custom-card" *ngFor="let dato of datos.registro">
       <img class="imagen-producto" alt="Imagen del producto" src="{{dato.imagenPrincipal}}" />

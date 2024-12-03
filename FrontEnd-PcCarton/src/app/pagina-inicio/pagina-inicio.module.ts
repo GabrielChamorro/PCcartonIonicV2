@@ -8,13 +8,15 @@ import { PaginaInicioPageRoutingModule } from './pagina-inicio-routing.module';
 
 import { PaginaInicioPage } from './pagina-inicio.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     PaginaInicioPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   declarations: [PaginaInicioPage]
 })

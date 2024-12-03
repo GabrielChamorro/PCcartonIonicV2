@@ -1,0 +1,16 @@
+.logo-centrado {
+    display: flex;               /* Mantén la configuración de Flexbox si es necesario */
+    justify-content: center;     /* Centra la imagen horizontalmente */
+    align-items: center;         /* Centra la imagen verticalmente */
+    padding: 20px;               /* Espaciado interno para la imagen */
+    border-radius: 12px;
+
+}
+
+.formulario-centrado {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;    /* Centra verticalmente */
+
+}

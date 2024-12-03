@@ -19,11 +19,17 @@ export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
   public datos: RespuestaApiProducto = { OK: false, count: 0, msg: '', registro: [] };
   constructor(
     public producto: ApiProductosService,
+    private router: Router
   ) { }
 
 
+  public redirigirLogin(){
+    this.router.navigate(['/','login']);
+  }
 
-
+  public buscar(){
+    
+  }
   
 
   ionViewWillEnter(): void {

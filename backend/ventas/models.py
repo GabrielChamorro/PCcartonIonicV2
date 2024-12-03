@@ -130,7 +130,6 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=150)
     telefono = models.CharField(max_length=20, blank=True)
     mail = models.CharField(max_length=100)
-    clave = models.CharField(max_length=50)
     direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE, db_column='idDireccion')
     
     class Meta:
@@ -150,8 +149,8 @@ class Empleado(models.Model):
 
 
 class Usuario(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=150)
+    nombre = models.CharField(primary_key=True, max_length=100)
+    clave = models.CharField(max_length=50)
     idCliente = models.ForeignKey(Cliente, null=True, on_delete=models.CASCADE, db_column='idCliente')
     idEmpleado = models.ForeignKey(Empleado, null=True, on_delete=models.CASCADE, db_column='idEmpleado')
     

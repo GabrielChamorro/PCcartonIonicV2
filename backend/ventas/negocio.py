@@ -418,13 +418,13 @@ class Negocio:
 
     #Usuario
 
-    def get_Usuario(id):
+    def get_Usuario(nombre):
         try:
-            return Usuario.objects.get(pk=id)
+            return Usuario.objects.get(pk=nombre)
         except Usuario.DoesNotExist:
             return None
 
-    def usuarioCrear(id, nombre, idCliente=None, idEmpleado=None):
+    def usuarioCrear(nombre, clave,idCliente=None, idEmpleado=None):
         cliente = None
         empleado = None
 
@@ -440,18 +440,18 @@ class Negocio:
             except Empleado.DoesNotExist:
                 raise ValueError("El Empleado especificado no existe")
 
-        usuario = Negocio.get_Usuario(id)
+        usuario = Negocio.get_Usuario(nombre)
         if usuario is None:
-            usuario = Usuario(id=id, nombre=nombre, idCliente=cliente, idEmpleado=empleado)
+            usuario = Usuario(nombre=nombre,clave=clave, idCliente=cliente, idEmpleado=empleado)
         else:
-            usuario.nombre = nombre
+            usuario.clave = clave
             usuario.idCliente = cliente
             usuario.idEmpleado = empleado
         usuario.save()
         return True
 
-    def usuarioEliminar(id):
-        usuario = Negocio.get_Usuario(id)
+    def usuarioEliminar(nombre):
+        usuario = Negocio.get_Usuario(nombre)
         if usuario:
             usuario.delete()
             return True
