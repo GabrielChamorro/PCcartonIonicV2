@@ -35,12 +35,18 @@ urlpatterns = [
     path('backend/direccion/',  views_backend.DireccionList.as_view()),
 
 
+    #apis
+
     path('backend/login/', views_backend.LoginView.as_view(), name='token_obtain_pair'),
 
 
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    
+
+
+
+    path('iniciar-transaccion/', views_backend.WebpayTransaction.as_view(), name='iniciar_transaccion'),
+    path('confirmar-transaccion/<str:token>/', views_backend.ConfirmarTransaccion.as_view(), name='confirmar_transaccion'),
 
 
 

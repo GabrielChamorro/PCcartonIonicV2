@@ -18,6 +18,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.views import TokenObtainPairView
+import requests
+from django.http import JsonResponse
 # Create your views here.
 
 def indexHarrys(request):
@@ -717,6 +719,68 @@ class ProductoDetail(APIView):
             return JSONResponseErr(None, msg="Error al eliminar el producto", status=status.HTTP_400_BAD_REQUEST)
         print("hola delete2")
         return Response(status=status.HTTP_204_NO_CONTENT)       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class WebpayTransaction(APIView):
+    def post(self, request, format=None):
+        data = JSONParser().parse(request)
+
+        url = 'https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions'
+        headers = {
+            'Tbk-Api-Key-Id': '597055555532',
+            'Tbk-Api-Key-Secret': '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.post(url, json=data, headers=headers)
+
+        if response.status_code == 200:
+            return JsonResponse(response.json(), status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(response.json(), status=response.status_code)
+
+class ConfirmarTransaccion(APIView):
+    def put(self, request, token, format=None):
+        url = f'https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions/{token}'
+        headers = {
+            'Tbk-Api-Key-Id': '597055555532',
+            'Tbk-Api-Key-Secret': '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.put(url, headers=headers)
+
+        if response.status_code == 200:
+            return JsonResponse(response.json(), status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(response.json(), status=response.status_code)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
