@@ -2,20 +2,12 @@
   <ion-toolbar>
     <ion-title>pagina-inicio</ion-title>
     <ion-button (click)="redirigirLogin()">login</ion-button>
-    <ion-button>carrito</ion-button>
+    <ion-button routerLink="/carrito">carrito</ion-button>
     <ion-button (click)="realizarPago()">pago</ion-button>
   </ion-toolbar>
 </ion-header>
 
-
-
-
-
-
-
 <ion-content [fullscreen]="true">
-
-  
   <img class="imagen-banner" src="./../../assets/Images/a2d96dbf-8de1-49a4-8e27-7346e705f4fd.png"/>
 
   <ion-searchbar></ion-searchbar>
@@ -32,9 +24,8 @@
       <ion-card-content>
         {{dato.descripcion}}
       </ion-card-content>
-      <ion-button class="boton-compra">añadir al carrito</ion-button>
+      <ion-button class="boton-compra" (click)="agregarAlCarrito(dato)">añadir al carrito</ion-button>
     </ion-card>
   </div>
 </ion-content>
-
 

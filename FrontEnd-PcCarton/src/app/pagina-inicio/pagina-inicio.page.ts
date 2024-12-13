@@ -14,6 +14,7 @@ import { WebpayService } from './../servicio/webpay.service';
 export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
   private suscripcionProducto!: Subscription;
   public datos: RespuestaApiProducto = { OK: false, count: 0, msg: '', registro: [] };
+  public carrito: any[] = [];
 
   constructor(
     public producto: ApiProductosService,
@@ -50,7 +51,6 @@ export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
     });
   }
 
-
   public confirmarTransaccion(token: string) {
     this.webpayService.confirmarTransaccion(token).subscribe(response => {
       console.log('Transacción confirmada:', response);
@@ -59,7 +59,25 @@ export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
       console.error('Error al confirmar la transacción:', error);
     });
   }
-  
+
+  public agregarAlCarrito(producto: any) {
+    let carritoGuardado = localStorage.getItem('carrito');
+    this.carrito = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+
+    const productoExistente = this.carrito.find(item => item.id === producto.id);
+
+    if (productoExistente) {
+      productoExistente.cantidad++;
+    } else {
+      producto.cantidad = 1;
+      this.carrito.push({
+        ...producto,
+        imagen: producto.imagenPrincipal // Asegúrate de que la imagen se guarde correctamente
+      });
+    }
+
+    localStorage.setItem('carrito', JSON.stringify(this.carrito));
+  }
 
   ionViewWillEnter(): void {
     this.suscripcionProducto = this.producto.productos.subscribe(losDatos => {
