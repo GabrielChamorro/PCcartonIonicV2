@@ -1,4 +1,11 @@
-cd ./FrontEnd-PcCarton
+@echo off
+cd /d "%~dp0FrontEnd-PcCarton"
 
-npm install -g @ionic/cli
-npx ionic serve
+echo Instalando Ionic CLI...
+call npm install -g @ionic/cli
+
+echo Iniciando servidor...
+call npx ionic serve
+
+pause
+
