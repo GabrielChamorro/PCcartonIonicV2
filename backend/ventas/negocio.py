@@ -290,20 +290,14 @@ class Negocio:
         except CategoriaEmpleado.DoesNotExist:
             return None
 
-    def categoriaEmpleadoCrear(id, nombre, descripcion, idPadre=None):
-        idPadre_obj = None
-        if idPadre:
-            idPadre_obj = Negocio.get_CategoriaEmpleado(idPadre)
-            if idPadre_obj is None:
-                raise ValueError("La Categoría Empleado padre especificada no existe")
+    def categoriaEmpleadoCrear(id, nombre, descripcion):
 
         categoriaEmpleado = Negocio.get_CategoriaEmpleado(id)
         if categoriaEmpleado is None:
-            categoriaEmpleado = CategoriaEmpleado(id=id, nombre=nombre, descripcion=descripcion, idPadre=idPadre_obj)
+            categoriaEmpleado = CategoriaEmpleado(id=id, nombre=nombre, descripcion=descripcion)
         else:
             categoriaEmpleado.nombre = nombre
             categoriaEmpleado.descripcion = descripcion
-            categoriaEmpleado.idPadre = idPadre_obj
         categoriaEmpleado.save()
         return True
 

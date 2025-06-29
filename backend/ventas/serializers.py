@@ -61,6 +61,12 @@ class CategoriaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 #ch
+class CategoriaEmpleadoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CategoriaEmpleado
+        fields = '__all__'
+
+#ch
 class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producto

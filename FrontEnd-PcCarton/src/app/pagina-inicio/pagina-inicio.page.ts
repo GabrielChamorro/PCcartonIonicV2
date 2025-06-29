@@ -15,6 +15,11 @@ export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
   private suscripcionProducto!: Subscription;
   public datos: RespuestaApiProducto = { OK: false, count: 0, msg: '', registro: [] };
   public carrito: any[] = [];
+  public tipoUsuario: string | null = '';
+  public categoriaEmpleado: string | null = '';
+
+  public textoBusqueda: string = '';
+  public productosFiltrados: any[] = [];
 
   constructor(
     public producto: ApiProductosService,
@@ -26,9 +31,13 @@ export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
     this.router.navigate(['/','login']);
   }
 
-  public buscar() {
-    // Lógica para la búsqueda
+  public buscar(event: any): void {
+    const valor = event.detail.value?.toLowerCase() || '';
+    this.productosFiltrados = this.datos.registro.filter(p =>
+      p.nombre.toLowerCase().includes(valor)
+    );
   }
+
 
   public realizarPago() {
     const data = {
@@ -79,13 +88,23 @@ export class PaginaInicioPage implements ViewWillEnter, ViewWillLeave, OnInit {
     localStorage.setItem('carrito', JSON.stringify(this.carrito));
   }
 
+
   ionViewWillEnter(): void {
     this.suscripcionProducto = this.producto.productos.subscribe(losDatos => {
       if (losDatos) {
         this.datos = losDatos;
+        this.productosFiltrados = losDatos.registro;
       }
     });
     this.producto.obtenerProductos();
+
+    // NUEVO: leer datos del usuario
+    this.tipoUsuario = localStorage.getItem('tipo_usuario');
+    this.categoriaEmpleado = localStorage.getItem('categoria_empleado');
+  }
+
+  public redirigirCRUD() {
+  this.router.navigate(['/crud-productos']);
   }
 
   ionViewWillLeave(): void {

@@ -34,14 +34,19 @@ export class AuthService {
         'Content-Type': 'application/json'
       }
     })
-    .subscribe(resultado  => {
-      this.UsuarioLogueadoFormato = resultado;
-      this.accessToken = resultado.access_token;
-      this.$cargando.next(false);
-      console.log(resultado);
-      this.router.navigate(['/','pagina-inicio']);
-    });
+    .subscribe(resultado => {
+    this.UsuarioLogueadoFormato = resultado;
+    this.accessToken = resultado.access_token;
 
+    localStorage.setItem("token", resultado.access_token);
+    localStorage.setItem("nombreUsuario", resultado.nombre);
+    localStorage.setItem("tipo_usuario", resultado.tipo_usuario);
+    localStorage.setItem("categoria_empleado", resultado.categoria_empleado || '');
+
+    this.$cargando.next(false);
+    console.log(resultado);
+    this.router.navigate(['/', 'pagina-inicio']);
+    });
   }
 
   public cerrarSesion(){

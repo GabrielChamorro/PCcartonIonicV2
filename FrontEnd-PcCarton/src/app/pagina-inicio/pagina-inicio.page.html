@@ -4,18 +4,20 @@
     <ion-button (click)="redirigirLogin()">login</ion-button>
     <ion-button routerLink="/carrito">carrito</ion-button>
     <ion-button (click)="realizarPago()">pago</ion-button>
+    <ion-button *ngIf="tipoUsuario === 'empleado' && categoriaEmpleado === 'administrador'" (click)="redirigirCRUD()">Ir al CRUD</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <img class="imagen-banner" src="./../../assets/Images/a2d96dbf-8de1-49a4-8e27-7346e705f4fd.png"/>
 
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar [(ngModel)]="textoBusqueda" (ionInput)="buscar($event)" placeholder="Buscar productos..."></ion-searchbar>
+
 
   <ion-spinner class="loading" *ngIf="producto.cargando | async" name="crescent"></ion-spinner>
 
   <div class="grid-container">
-    <ion-card class="custom-card" *ngFor="let dato of datos.registro">
+    <ion-card class="custom-card" *ngFor="let dato of productosFiltrados">
       <img class="imagen-producto" alt="Imagen del producto" src="{{dato.imagenPrincipal}}" />
       <ion-card-header>
         <ion-card-title>{{dato.nombre}}</ion-card-title>

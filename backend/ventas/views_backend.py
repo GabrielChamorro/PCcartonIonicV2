@@ -354,7 +354,7 @@ class CategoriaEmpleadoList(APIView):
 
     def post(self, request, format=None):
         data = JSONParser().parse(request)
-        if not Negocio.categoriaEmpleadoCrear(data['id'], data['nombre'], data['descripcion'], data.get('idPadre', None)):
+        if not Negocio.categoriaEmpleadoCrear(data['id'], data['nombre'], data['descripcion']):
             return JSONResponseErr(None, msg="Error al crear la categoría del empleado", status=status.HTTP_400_BAD_REQUEST)
         return JSONResponseOk(None, msg="Registro Creado", status=status.HTTP_201_CREATED)
 
@@ -366,7 +366,7 @@ class CategoriaEmpleadoDetail(APIView):
 
     def put(self, request, id, format=None):
         data = JSONParser().parse(request)
-        if not Negocio.categoriaEmpleadoCrear(id, data['nombre'], data['descripcion'], data.get('idPadre', None)):
+        if not Negocio.categoriaEmpleadoCrear(id, data['nombre'], data['descripcion']):
             return JSONResponseErr(None, status=status.HTTP_400_BAD_REQUEST)
         return JSONResponseOk(None, msg="Registro Actualizado")
 
@@ -789,33 +789,33 @@ class ConfirmarTransaccion(APIView):
 
 class LoginView(TokenObtainPairView):
     def post(self, request):
-        print(f"Request Body: {request.body}")  # Para verificar el cuerpo de la solicitud
-
-        # Obtener datos de la solicitud (nombre y clave)
-
         nombre = request.data.get('nombre')
         clave = request.data.get('clave')
 
-        print('nombre', nombre, 'clave', clave)
-        
-        # Verificar si el usuario existe
         usuario = Negocio.get_Usuario(nombre)
-        print(f"Resultado de búsqueda de usuario: {usuario}")
-        print(f"Datos recibidos en la solicitud: {request.data}")
 
         if usuario is None:
             return Response({'detail': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
-        # Verificar si la clave es correcta         
         elif usuario.clave != clave:
             return Response({'detail': 'Contraseña incorrecta'}, status=status.HTTP_401_UNAUTHORIZED)
-        # Generate tokens
-        refresh = RefreshToken.for_user(usuario)  # Generamos el token para el usuario
-        access_token = str(refresh.access_token)
-        nombre = str(usuario.nombre)
-        idCliente = str(usuario.idCliente)
 
-        return Response({'access_token': access_token, 'refresh_token': str(refresh),
-                        'nombre': nombre, 'idCliente': idCliente }, status=status.HTTP_200_OK)
+        refresh = RefreshToken.for_user(usuario)
+
+        tipo_usuario = 'empleado' if usuario.idEmpleado else 'cliente'
+        categoria_empleado = (
+            usuario.idEmpleado.idCategoria.nombre
+            if usuario.idEmpleado and usuario.idEmpleado.idCategoria else None
+        )
+
+        return Response({
+            'access_token': str(refresh.access_token),
+            'refresh_token': str(refresh),
+            'nombre': usuario.nombre,
+            'tipo_usuario': tipo_usuario,
+            'categoria_empleado': categoria_empleado,
+        }, status=status.HTTP_200_OK)
+
+
 
 
 

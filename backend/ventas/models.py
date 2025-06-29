@@ -96,10 +96,9 @@ class CategoriaEmpleado(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=100)
-    idPadre = models.ForeignKey('self', null=True, on_delete=models.CASCADE, db_column='idPadre')
     
     class Meta:
-        db_table = 'categoriaEmpleado   '
+        db_table = 'categoriaEmpleado'
 
 
 class Producto(models.Model):
@@ -139,7 +138,7 @@ class Cliente(models.Model):
 class Empleado(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150)
-    idCategoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, db_column='idCategoria')
+    idCategoria = models.ForeignKey(CategoriaEmpleado, on_delete=models.CASCADE, db_column='idCategoria')
     
     class Meta:
         db_table = 'empleado'
